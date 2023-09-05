@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "lantern",
+    "name": "Lantern Client",
+    "description": "Utility client.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://lbplusplus.ga",
+    "updateUrl": "",
+    "authorList": ["CCBlueX", "PlusPlusMC"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
