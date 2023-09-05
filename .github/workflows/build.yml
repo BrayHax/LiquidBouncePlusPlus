@@ -1,6 +1,8 @@
 name: build
 
-on: [pull_request, push, workflow_dispatch]
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
@@ -20,8 +22,8 @@ jobs:
           job-id: jdk8
           arguments: build --no-build-cache
           gradle-version: wrapper
-      - name: Upload build artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: lantern
-          path: build/libs/
+          name: LiquidBounce++
+          path: build/libs/liquidbounceplusplus.jar
