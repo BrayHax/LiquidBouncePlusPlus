@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.movement
 
@@ -41,17 +41,15 @@ import net.minecraft.util.EnumFacing
 @ModuleInfo(name = "NoSlow", spacedName = "No Slow", category = ModuleCategory.MOVEMENT, description = "Prevent you from getting slowed down by items (swords, foods, etc.) and liquids.")
 class NoSlow : Module() {
     private val msTimer = MSTimer()
-    private val modeValue = ListValue("PacketMode", arrayOf("Vanilla", "Watchdog", "Watchdog2", "OldWatchdog", "OldHypixel", "Blink", "Experimental", "NCP", "AAC", "AAC5", "Custom"), "Vanilla")
+    private val modeValue = ListValue("PacketMode", arrayOf("Vanilla", "Watchdog", "OldWatchdog", "OldHypixel", "Blink", "Experimental", "NCP", "AAC", "AAC5", "Custom"), "Vanilla")
     private val blockForwardMultiplier = FloatValue("BlockForwardMultiplier", 1.0F, 0.2F, 1.0F, "x")
     private val blockStrafeMultiplier = FloatValue("BlockStrafeMultiplier", 1.0F, 0.2F, 1.0F, "x")
     private val consumeForwardMultiplier = FloatValue("ConsumeForwardMultiplier", 1.0F, 0.2F, 1.0F, "x")
     private val consumeStrafeMultiplier = FloatValue("ConsumeStrafeMultiplier", 1.0F, 0.2F, 1.0F, "x")
     private val bowForwardMultiplier = FloatValue("BowForwardMultiplier", 1.0F, 0.2F, 1.0F, "x")
     private val bowStrafeMultiplier = FloatValue("BowStrafeMultiplier", 1.0F, 0.2F, 1.0F, "x")
-    
-    // you know
-    val sneakForwardMultiplier = FloatValue("SneakForwardMultiplier", 0.3F, 0.3F, 1.0F, "x")
-    val sneakStrafeMultiplier = FloatValue("SneakStrafeMultiplier", 0.3F, 0.3F, 1.0F, "x")
+    val sneakForwardMultiplier = FloatValue("SneakForwardMultiplier", 1.0F, 0.3F, 1.0F, "x")
+    val sneakStrafeMultiplier = FloatValue("SneakStrafeMultiplier", 1.0F, 0.3F, 1.0F, "x")
     private val customRelease = BoolValue("CustomReleasePacket", false, { modeValue.get().equals("custom", true) })
     private val customPlace = BoolValue("CustomPlacePacket", false, { modeValue.get().equals("custom", true) })
     private val customOnGround = BoolValue("CustomOnGround", false, { modeValue.get().equals("custom", true) })
@@ -59,7 +57,7 @@ class NoSlow : Module() {
     private val testValue = BoolValue("SendPacket", false, { modeValue.get().equals("watchdog", true) })
     private val ciucValue = BoolValue("CheckInUseCount", true, { modeValue.get().equals("blink", true) })
     private val packetTriggerValue = ListValue("PacketTrigger", arrayOf("PreRelease", "PostRelease"), "PostRelease", { modeValue.get().equals("blink", true) })
-    private val debugValue = BoolValue("Debug", false, { modeValue.get().equals("watchdog", true) || modeValue.get().equals("watchdog2", true) || modeValue.get().equals("blink", true) })
+    private val debugValue = BoolValue("Debug", false, { modeValue.get().equals("watchdog", true) || modeValue.get().equals("blink", true) })
 
     // Soulsand
     val soulsandValue = BoolValue("Soulsand", true)
@@ -188,14 +186,7 @@ class NoSlow : Module() {
         val heldItem = mc.thePlayer.heldItem
         val killAura = LiquidBounce.moduleManager[KillAura::class.java]!! as KillAura
 
-        when (modeValue.get().toLowerCase()) {
-        	"watchdog2" -> {
-        	    if(mc.thePlayer.isUsingItem || mc.thePlayer.isBlocking || killAura.blockingStatus) {
-                    PacketUtils.sendPacketNoEvent(C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem))
-                    if (debugValue.get())
-                        ClientUtils.displayChatMessage("I sent your disabler to hypixel staff")
-                }
-            }
+        when (modeValue.get().lowercase()) {
             "aac5" -> if (event.eventState == EventState.POST && (mc.thePlayer.isUsingItem || mc.thePlayer.isBlocking || killAura.blockingStatus)) {
                 mc.netHandler.addToSendQueue(C08PacketPlayerBlockPlacement(BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f))
             }
@@ -240,7 +231,7 @@ class NoSlow : Module() {
             else -> {
                 if (!mc.thePlayer.isBlocking && !killAura.blockingStatus)
                     return
-                when (modeValue.get().toLowerCase()) {
+                when (modeValue.get().lowercase()) {
                     "aac" -> {
                         if (mc.thePlayer.ticksExisted % 3 == 0)
                             sendPacket(event, true, false, false, 0, false)

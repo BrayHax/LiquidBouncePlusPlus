@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -64,7 +64,7 @@ class GiveCommand : Command("give", arrayOf("item", "i", "get")) {
         return when (args.size) {
             1 -> {
                 return Item.itemRegistry.keys
-                    .map { it.resourcePath.toLowerCase() }
+                    .map { it.resourcePath.lowercase() }
                     .filter { it.startsWith(args[0], true) }
             }
             else -> emptyList()

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -14,7 +14,7 @@ import net.ccbluex.liquidbounce.utils.SettingsUtils
 import net.ccbluex.liquidbounce.utils.misc.HttpUtils
 import kotlin.concurrent.thread
 
-class AutoSettingsCommand : Command("autosettings", arrayOf("setting", "settings", "config", "autosetting")) {
+class AutoSettingsCommand : Command("onlineconfig", arrayOf("autosetting", "autosettings", "onlineconfigs")) {
     private val loadingLock = Object()
     private var autoSettingFiles: MutableList<String>? = null
 
@@ -40,19 +40,27 @@ class AutoSettingsCommand : Command("autosettings", arrayOf("setting", "settings
                 val url = if (args[2].startsWith("http"))
                     args[2]
                 else
-                    "${LiquidBounce.CLIENT_CLOUD}/settings/${args[2].toLowerCase()}"
+                    "${LiquidBounce.CLIENT_CLOUD}/settings/${args[2].lowercase()}"
 
-                chat("Loading settings...")
+                chat("Loading configs...")
 
                 thread {
                     try {
                         // Load settings and apply them
                         val settings = HttpUtils.get(url)
-
-                        chat("Applying settings...")
+                        
+                        if(args[2].startsWith("http") || args[2].startsWith("https")) {
+                           chat("Applying config from a link...")
+                        } else {
+                           chat("Applying config " + args[2] + "...")
+                        }
                         SettingsUtils.executeScript(settings)
-                        chat("§6Settings applied successfully")
-                        LiquidBounce.hud.addNotification(Notification("Updated Settings", Notification.Type.SUCCESS))
+                        if(args[2].startsWith("http") || args[2].startsWith("https")) {
+                           chat("§6Successfully applied config from a link.")
+                        } else {
+                           chat("§6Successfully applied config " + args[2] + ".")
+                        }
+                        LiquidBounce.hud.addNotification(Notification("Updated Config", Notification.Type.SUCCESS))
                         playEdit()
                     } catch (exception: Exception) {
                         exception.printStackTrace()
@@ -63,11 +71,11 @@ class AutoSettingsCommand : Command("autosettings", arrayOf("setting", "settings
 
             // List subcommand
             args[1].equals("list", ignoreCase = true) -> {
-                chat("Loading settings...")
+                chat("Fetching online config...")
 
                 loadSettings(false) {
                     for (setting in it)
-                        chat("> $setting")
+                        chat("$setting")
                 }
             }
         }
@@ -85,7 +93,7 @@ class AutoSettingsCommand : Command("autosettings", arrayOf("setting", "settings
                 try {
                     val json = JsonParser().parse(HttpUtils.get(
                             // TODO: Add another way to get all settings
-                            "https://api.github.com/repos/WYSI-Foundation/LiquidCloud/contents/LiquidBounce/settings"
+                            "https://api.github.com/repos/AmoClub/PlusPlusCloud/contents/LiquidBounce/settings"
                     ))
 
                     val autoSettings: MutableList<String> = mutableListOf()
@@ -99,7 +107,7 @@ class AutoSettingsCommand : Command("autosettings", arrayOf("setting", "settings
 
                     this.autoSettingFiles = autoSettings
                 } catch (e: Exception) {
-                    chat("Failed to fetch auto settings list.")
+                    chat("Failed to fetch online configs.")
                 }
             }
         }

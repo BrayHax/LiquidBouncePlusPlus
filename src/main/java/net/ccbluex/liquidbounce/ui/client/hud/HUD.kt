@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud
 
@@ -10,6 +10,7 @@ import net.ccbluex.liquidbounce.ui.client.hud.designer.GuiHudDesigner
 import net.ccbluex.liquidbounce.ui.client.hud.element.Element
 import net.ccbluex.liquidbounce.ui.client.hud.element.elements.*
 import net.ccbluex.liquidbounce.ui.client.hud.element.elements.Target
+import net.ccbluex.liquidbounce.ui.client.hud.element.elements.Statistics
 import net.ccbluex.liquidbounce.utils.ClientUtils
 import net.ccbluex.liquidbounce.utils.MinecraftInstance
 import net.minecraft.client.gui.ScaledResolution
@@ -40,7 +41,8 @@ open class HUD : MinecraftInstance() {
                 SpeedGraph::class.java,
                 PlayerList::class.java,
                 Radar::class.java,
-                Graph::class.java
+                Graph::class.java,
+                Statistics::class.java
         )
 
         /**

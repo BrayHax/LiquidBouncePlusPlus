@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce
 
@@ -36,15 +36,15 @@ import kotlin.concurrent.thread
 object LiquidBounce {
 
     // Client information
-    const val CLIENT_NAME = "Lantern"
-    const val CLIENT_VERSION = "0.2"
-    const val CLIENT_CREATOR = "CCBlueX, exit-scammed, PlusPlusMC"
-    const val CLIENT_CLOUD = "https://mossware.github.io/LiquidCloud/LiquidBounce"
+    const val CLIENT_NAME = "LiquidBounce++"
+    const val CLIENT_VERSION = "0.3"
+    const val CLIENT_CREATOR = "CCBlueX, exit-scammed, and PlusPlusMC"
+    const val CLIENT_CLOUD = "https://plusplusmc.github.io/Cloud/LiquidBounce/"
 
     var isStarting = false
     var mainMenuPrep = false
 
-    var darkMode = false
+    var darkMode: Boolean = false
 
     // Managers
     lateinit var moduleManager: ModuleManager
@@ -52,7 +52,6 @@ object LiquidBounce {
     lateinit var eventManager: EventManager
     lateinit var fileManager: FileManager
     lateinit var scriptManager: ScriptManager
-
     lateinit var tipSoundManager: TipSoundManager
 
     // HUD & ClickGUI
@@ -68,13 +67,17 @@ object LiquidBounce {
 
     var lastTick : Long = 0L
 
+    fun getdarkMode(): Boolean {
+        return darkMode
+    }
+
     /**
      * Execute if client will be started
      */
     fun startClient() {
         isStarting = true
 
-        ClientUtils.getLogger().info("Starting $CLIENT_NAME build $CLIENT_VERSION")
+        ClientUtils.getLogger().info("Starting $CLIENT_NAME")
         lastTick = System.currentTimeMillis()
 
         // Create file manager
@@ -132,7 +135,7 @@ object LiquidBounce {
         clickGui = ClickGui()
         fileManager.loadConfig(fileManager.clickGuiConfig)
 
-        // Tabs (Only for Forge!)
+        // Tabs
         if (hasForge()) {
             BlocksTab()
             ExploitsTab()

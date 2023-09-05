@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client
 
@@ -13,7 +13,6 @@ import net.ccbluex.liquidbounce.utils.ClientUtils
 import net.ccbluex.liquidbounce.utils.misc.MiscUtils
 import net.ccbluex.liquidbounce.utils.render.RenderUtils
 import net.ccbluex.liquidbounce.utils.render.EaseUtils
-import net.ccbluex.liquidbounce.utils.render.ColorUtils
 import net.minecraft.client.gui.*
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.texture.DynamicTexture
@@ -71,7 +70,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         GL11.glPushMatrix()
         renderSwitchButton()
         renderDarkModeButton()
-        Fonts.font40.drawStringWithShadow("Lantern Client", 2F, height - 12F, -1)
+        Fonts.font40.drawStringWithShadow("LiquidBounce++ b${LiquidBounce.CLIENT_VERSION} | lbplusplus.ga", 2F, height - 12F, -1)
         Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
         if (useParallax) moveMouseEffect(mouseX, mouseY, 10F)
         GlStateManager.disableAlpha()
@@ -115,7 +114,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
                             Files.copy(file.toPath(), FileOutputStream(LiquidBounce.fileManager.backgroundFile))
 
                             val image = ImageIO.read(FileInputStream(LiquidBounce.fileManager.backgroundFile))
-                            LiquidBounce.background = ResourceLocation(LiquidBounce.CLIENT_NAME.toLowerCase() + "/background.png")
+                            LiquidBounce.background = ResourceLocation("liquidbounce+/background.png")
                             mc.textureManager.loadTexture(LiquidBounce.background, DynamicTexture(image))
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -229,7 +228,9 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
 
         if (displayString != null)
             Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, -1)
-            
+        else
+            Fonts.font35.drawCenteredString("hi", width / 2F, staticY + 30F, -1)
+
         if (shouldAnimate) {
             if (fade == 0F)
                 slideX = moveX

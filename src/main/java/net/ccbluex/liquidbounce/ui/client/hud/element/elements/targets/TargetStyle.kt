@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.element.elements.targets
 
@@ -36,7 +36,7 @@ abstract class TargetStyle(val name: String, val targetInstance: Target, val sha
     val decimalFormat3 = DecimalFormat("0.#", DecimalFormatSymbols(Locale.ENGLISH))
 
     val shadowOpaque: Color
-        get() = ColorUtils.reAlpha(when (targetInstance.shadowColorMode.get().toLowerCase()) {
+        get() = ColorUtils.reAlpha(when (targetInstance.shadowColorMode.get().lowercase()) {
             "background" -> targetInstance.bgColor
             "custom" -> Color(targetInstance.shadowColorRedValue.get(), targetInstance.shadowColorGreenValue.get(), targetInstance.shadowColorBlueValue.get())
             else -> targetInstance.barColor
@@ -70,6 +70,13 @@ abstract class TargetStyle(val name: String, val targetInstance: Target, val sha
 
     fun getColor(color: Color) = ColorUtils.reAlpha(color, color.alpha / 255F * (1F - targetInstance.getFadeProgress()))
     fun getColor(color: Int) = getColor(Color(color))
+
+    fun drawMosswareHead(skin: ResourceLocation, width: Int, height: Int) {
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F)
+        mc.textureManager.bindTexture(skin)
+        Gui.drawScaledCustomSizeModalRect(2, 2, 8F, 8F, 8, 8, width, height,
+            64F, 64F)
+    }
 
     fun drawHead(skin: ResourceLocation, x: Int = 2, y: Int = 2, width: Int, height: Int, alpha: Float = 1F) {
         glDisable(GL_DEPTH_TEST)

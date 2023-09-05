@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.utils.render;
 
@@ -92,7 +92,7 @@ public final class RenderUtils extends MinecraftInstance {
 
         glEndList();
     }
-    
+
     private static final Frustum frustrum = new Frustum();
 
     protected static float zLevel = 0F;
@@ -147,11 +147,6 @@ public final class RenderUtils extends MinecraftInstance {
         int color = Color.HSBtoRGB(hue, saturation, brightness);
         return color;
     }
-    
-    public static Color getRainbowColor(int seconds, float saturation, float brightness, int index) {
-        float hue = ((System.currentTimeMillis() + index) % (int) (seconds * 1000)) / (float) (seconds * 1000);
-        return Color.getHSBColor((float) (hue / 360.0f), saturation, brightness);
-    }
 
     public static int getNormalRainbow(int delay, float sat, float brg) {
         double rainbowState = Math.ceil((System.currentTimeMillis() + delay) / 20.0);
@@ -191,6 +186,12 @@ public final class RenderUtils extends MinecraftInstance {
         drawRect(x - 2.5F, y - 2.5F, x2 + 2.5F, y2 + 2.5F, new Color(26F / 255F, 26F / 255F, 26F / 255F, alpha).getRGB());
         drawRect(x - 0.5F, y - 0.5F, x2 + 0.5F, y2 + 0.5F, new Color(50F / 255F, 50F / 255F, 50F / 255F, alpha).getRGB());
         drawRect(x, y, x2, y2, new Color(18F / 255F, 18 / 255F, 18F / 255F, alpha).getRGB());
+    }
+
+    public static void drawMosswareRect(final float x, final float y, final float x2, final float y2, final float width,
+                                        final int color1, final int color2) {
+        drawRect(x, y, x2, y2, color2);
+        drawBorder(x, y, x2, y2, width, color1);
     }
 
     public static void drawRoundedRect(float paramXStart, float paramYStart, float paramXEnd, float paramYEnd, float radius, int color) {
@@ -279,6 +280,57 @@ public final class RenderUtils extends MinecraftInstance {
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static void whatRoundedRect(float paramXStart, float paramYStart, float paramXEnd, float paramYEnd, final int color, float radius) {
+        float alpharect = (color >> 24 & 0xFF) / 255.0F;
+        float redrect = (color >> 16 & 0xFF) / 255.0F;
+        float greenrect = (color >> 8 & 0xFF) / 255.0F;
+        float bluerect = (color & 0xFF) / 255.0F;
+
+        float z = 0;
+        if (paramXStart > paramXEnd) {
+            z = paramXStart;
+            paramXStart = paramXEnd;
+            paramXEnd = z;
+        }
+
+        if (paramYStart > paramYEnd) {
+            z = paramYStart;
+            paramYStart = paramYEnd;
+            paramYEnd = z;
+        }
+
+    	double x1 = (double)(paramXStart + radius);
+    	double y1 = (double)(paramYStart + radius);
+    	double x2 = (double)(paramXEnd - radius);
+    	double y2 = (double)(paramYEnd - radius);
+
+        glPushMatrix();
+        glEnable(GL_BLEND);
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_LINE_SMOOTH);
+        glLineWidth(1);
+
+    	glColor(color);
+        glBegin(GL_POLYGON);
+    
+        double degree = Math.PI / 180;
+        for (double i = 0; i <= 90; i += 1)
+            glVertex2d(x2 + Math.sin(i * degree) * radius, y2 + Math.cos(i * degree) * radius);
+        for (double i = 90; i <= 180; i += 1)
+            glVertex2d(x2 + Math.sin(i * degree) * radius, y1 + Math.cos(i * degree) * radius);
+        for (double i = 180; i <= 270; i += 1)
+            glVertex2d(x1 + Math.sin(i * degree) * radius, y1 + Math.cos(i * degree) * radius);
+        for (double i = 270; i <= 360; i += 1)
+            glVertex2d(x1 + Math.sin(i * degree) * radius, y2 + Math.cos(i * degree) * radius);
+        glEnd();
+
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+        glDisable(GL_LINE_SMOOTH);
+        glPopMatrix();
     }
 
     public static void newDrawRect(double left, double top, double right, double bottom, int color)

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.combat
 
@@ -23,9 +23,9 @@ import net.ccbluex.liquidbounce.value.BoolValue
 import net.ccbluex.liquidbounce.value.FloatValue
 import net.ccbluex.liquidbounce.value.IntegerValue
 import net.ccbluex.liquidbounce.value.ListValue
-import net.minecraft.network.play.client.C03PacketPlayer
-import net.minecraft.network.play.server.S12PacketEntityVelocity
-import net.minecraft.network.play.server.S27PacketExplosion
+import net.minecraft.network.play.client.*
+import net.minecraft.network.play.client.C03PacketPlayer.*
+import net.minecraft.network.play.server.*
 import net.minecraft.util.MathHelper
 import net.minecraft.util.BlockPos
 
@@ -44,8 +44,8 @@ class Velocity : Module() {
     private val horizontalExplosionValue = FloatValue("HorizontalExplosion", 0F, 0F, 1F, "x")
     private val verticalExplosionValue = FloatValue("VerticalExplosion", 0F, 0F, 1F, "x")
     private val modeValue = ListValue("Mode", arrayOf("Cancel", "Simple", "AACv4", "AAC4Reduce", "AAC5Reduce", "AAC5.2.0", "AAC", "AACPush", "AACZero",
-            "Reverse", "SmoothReverse", "Jump", "Glitch", "Phase", "Matrix", "Legit",  "AEMine"), "Cancel") // later
-
+            "Reverse", "SmoothReverse", "Jump", "Glitch", "Phase", "Matrix", "Legit",  "AEMine", "Hycraft"), "Cancel") // later
+    
     private val aac5KillAuraValue = BoolValue("AAC5.2.0-Attack-Only", true, { modeValue.get().equals("aac5.2.0", true) })
 
     // Affect chance
@@ -64,6 +64,9 @@ class Velocity : Module() {
     private val legitStrafeValue = BoolValue("LegitStrafe", false, { modeValue.get().equals("legit", true) })
     private val legitFaceValue = BoolValue("LegitFace", true, { modeValue.get().equals("legit", true) })
 
+    // Hycraft
+    private val hycraftPacketY = ListValue("Hycraft-YPacketMode", arrayOf("Up", "Down", "None"), "Down") // i was testing
+    
     //add strafe in aac
     private val aacStrafeValue = BoolValue("AACStrafeValue", false, { modeValue.get().equals("aac", true) })
 
@@ -103,7 +106,7 @@ class Velocity : Module() {
         if (mc.thePlayer.isInWater || mc.thePlayer.isInLava || mc.thePlayer.isInWeb || !shouldAffect)
             return
 
-        when (modeValue.get().toLowerCase()) {
+        when (modeValue.get().lowercase()) {
             "jump" -> if (mc.thePlayer.hurtTime > 0 && mc.thePlayer.onGround) {
                 mc.thePlayer.motionY = 0.42
 
@@ -272,7 +275,7 @@ class Velocity : Module() {
 
             velocityTimer.reset()
 
-            when (modeValue.get().toLowerCase()) {
+            when (modeValue.get().lowercase()) {
                 "cancel" -> event.cancelEvent()
                 "simple" -> {
                     val horizontal = horizontalValue.get()
@@ -304,6 +307,15 @@ class Velocity : Module() {
                     event.cancelEvent()
                 }
 
+                "hycraft" -> {
+                    when (hycraftPacketY.get().lowercase()) {
+                      "up" -> mc.netHandler.addToSendQueue(C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,mc.thePlayer.posY + 1,mc.thePlayer.posZ,true))
+                      "down" -> mc.netHandler.addToSendQueue(C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,mc.thePlayer.posY - 1,mc.thePlayer.posZ,true))
+                      "none" -> mc.netHandler.addToSendQueue(C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,mc.thePlayer.posY,mc.thePlayer.posZ,true))
+                    }
+                    packet.motionX = (packet.getMotionX() * 0F).toInt()
+                    packet.motionZ = (packet.getMotionZ() * 0F).toInt()
+                }
                 "phase" -> mc.thePlayer.setPositionAndUpdate(mc.thePlayer.posX, mc.thePlayer.posY + phaseOffsetValue.get().toDouble(), mc.thePlayer.posZ)
 
                 "legit" -> {
@@ -311,7 +323,6 @@ class Velocity : Module() {
                 }
             }
         }
-
         if (packet is S27PacketExplosion) {
             mc.thePlayer.motionX = mc.thePlayer.motionX + packet.func_149149_c() * (horizontalExplosionValue.get())
             mc.thePlayer.motionY = mc.thePlayer.motionY + packet.func_149144_d() * (verticalExplosionValue.get())
@@ -322,7 +333,7 @@ class Velocity : Module() {
     
     @EventTarget
     fun onStrafe(event: StrafeEvent) {
-        when (modeValue.get().toLowerCase()) {
+        when (modeValue.get().lowercase()) {
             "legit" -> {
                 if(pos==null||mc.thePlayer.hurtTime<=0)
                     return
@@ -370,7 +381,7 @@ class Velocity : Module() {
         if (mc.thePlayer == null || mc.thePlayer.isInWater || mc.thePlayer.isInLava || mc.thePlayer.isInWeb || !shouldAffect)
             return
 
-        when (modeValue.get().toLowerCase()) {
+        when (modeValue.get().lowercase()) {
             "aacpush" -> {
                 jump = true
 

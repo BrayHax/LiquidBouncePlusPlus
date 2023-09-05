@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.render;
 
@@ -29,7 +29,7 @@ import java.awt.*;
 
 @ModuleInfo(name = "ClickGUI", description = "Opens the ClickGUI.", category = ModuleCategory.RENDER, keyBind = Keyboard.KEY_RSHIFT, forceNoSound = true, onlyEnable = true)
 public class ClickGUI extends Module {
-    private final ListValue styleValue = new ListValue("Style", new String[] {"LiquidBounce", "Null", "Slowly", "Black", "White", "New"}, "Null") {
+    private final ListValue styleValue = new ListValue("Style", new String[] {"LiquidBounce", "Null", "Slowly", "Black", "White", /* "Astolfo", "Test",  "Novoline", "Flux"*/}, "Null") {
         @Override
         protected void onChanged(final String oldValue, final String newValue) {
             updateStyle();
@@ -39,7 +39,7 @@ public class ClickGUI extends Module {
     public final FloatValue scaleValue = new FloatValue("Scale", 1F, 0.4F, 2F);
     public final IntegerValue maxElementsValue = new IntegerValue("MaxElements", 15, 1, 20);
 
-    private static final ListValue colorModeValue = new ListValue("Color", new String[] {"Custom", "Sky", "Rainbow", "LiquidSlowly", "Fade", "Mixer", "Lantern"}, "Custom");
+    private static final ListValue colorModeValue = new ListValue("Color", new String[] {"Custom", "Sky", "Rainbow", "LiquidSlowly", "Fade", "Mixer"}, "Custom");
     private static final IntegerValue colorRedValue = new IntegerValue("Red", 0, 0, 255);
     private static final IntegerValue colorGreenValue = new IntegerValue("Green", 160, 0, 255);
     private static final IntegerValue colorBlueValue = new IntegerValue("Blue", 255, 0, 255);
@@ -76,9 +76,6 @@ public class ClickGUI extends Module {
             case "mixer":
                 c = ColorMixer.getMixedColor(0, mixerSecondsValue.get());
                 break;
-            case "lantern":
-                c = ColorUtils.lantern(0, 100);
-             break;
         }
         return c;
     }
@@ -110,9 +107,12 @@ public class ClickGUI extends Module {
             case "white":
                 LiquidBounce.clickGui.style = new WhiteStyle();
                 break;
-            case "new":
-                LiquidBounce.clickGui.style = new MosswareStyle();
+/*            case "astolfo":
+                LiquidBounce.clickGui.style = new AstolfoStyle();
                 break;
+            case "test":
+                LiquidBounce.clickGui.style = new TestStyle();
+                break;*/
         }
     }
 }

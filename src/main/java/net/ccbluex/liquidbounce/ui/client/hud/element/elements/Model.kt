@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.element.elements
 
@@ -40,7 +40,7 @@ class Model(x: Double = 40.0, y: Double = 100.0) : Element(x, y) {
      * Draw element
      */
     override fun drawElement(): Border {
-        val yaw = when (yawMode.get().toLowerCase()) {
+        val yaw = when (yawMode.get().lowercase()) {
             "player" -> mc.thePlayer.rotationYaw
             "animation" -> {
                 val delta = RenderUtils.deltaTime
@@ -67,7 +67,7 @@ class Model(x: Double = 40.0, y: Double = 100.0) : Element(x, y) {
             else -> 0F
         }
 
-        var pitch = when (pitchMode.get().toLowerCase()) {
+        var pitch = when (pitchMode.get().lowercase()) {
             "player" -> mc.thePlayer.rotationPitch
             "custom" -> customPitch.get()
             else -> 0F

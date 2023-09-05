@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.element.elements
 
@@ -74,7 +74,7 @@ class PlayerList : Element() {
         nameLength = font.getStringWidth("Name (${playerList.size})").toFloat()
 
         when (sortValue.get()) {
-            "Alphabet" -> playerList.sortWith(compareBy { it.name.toLowerCase() })
+            "Alphabet" -> playerList.sortWith(compareBy { it.name.lowercase() })
             "Distance" -> playerList.sortWith(Comparator{ a, b -> mc.thePlayer.getDistanceToEntityBox(a).compareTo(mc.thePlayer.getDistanceToEntityBox(b)) })
             else -> playerList.sortWith(Comparator{ a, b -> a.health.compareTo(b.health) })
         }

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -24,7 +24,7 @@ class BindCommand : Command("bind", emptyArray()) {
                 return
             }
             // Find key by name and change
-            val key = Keyboard.getKeyIndex(args[2].toUpperCase())
+            val key = Keyboard.getKeyIndex(args[2].uppercase())
             module.keyBind = key
 
             // Response to user

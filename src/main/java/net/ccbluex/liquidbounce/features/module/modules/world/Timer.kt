@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.world
 
@@ -20,7 +20,6 @@ class Timer : Module() {
 
     private val speedValue = FloatValue("Speed", 2F, 0.1F, 10F, "x")
     private val onMoveValue = BoolValue("OnMove", true)
-    private val onGroundValue = BoolValue("OnGroundOnly", false)
     private val autoDisableValue = BoolValue("AutoDisable", true)
 
     override fun onDisable() {
@@ -30,7 +29,8 @@ class Timer : Module() {
     @EventTarget
     fun onUpdate(event: UpdateEvent) {
         if (mc.thePlayer == null || mc.theWorld == null) return
-        if(MovementUtils.isMoving() || !onMoveValue.get() || onGroundValue.get() && mc.thePlayer.onGround) {
+
+        if(MovementUtils.isMoving() || !onMoveValue.get()) {
             mc.timer.timerSpeed = speedValue.get()
             return
         }

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -18,13 +18,13 @@ class MacroCommand : Command("macro", emptyArray()) {
      */
     override fun execute(args: Array<String>) {
         if (args.size > 2) {
-            val key = Keyboard.getKeyIndex(args[2].toUpperCase())
+            val key = Keyboard.getKeyIndex(args[2].uppercase())
             if (key == 0) {
                 chat("§c§lKeybind doesn't exist, or not allowed.")
                 chatSyntax("macro <list/clear/add/remove>")
                 return
             }
-            when (args[1].toLowerCase()) {
+            when (args[1].lowercase()) {
                 "add" -> {
                     if (args.size < 4) {
                         chatSyntax("macro add <key name> <message>")
@@ -57,7 +57,7 @@ class MacroCommand : Command("macro", emptyArray()) {
             }
         }
         if (args.size == 2) {
-            when (args[1].toLowerCase()) {
+            when (args[1].lowercase()) {
                 "list" -> {
                     chat("§6§lMacros:")
                     MacroManager.macroMapping.forEach {

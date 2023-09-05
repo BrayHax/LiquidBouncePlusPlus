@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.render
 
@@ -14,24 +14,23 @@ import net.ccbluex.liquidbounce.features.module.ModuleInfo
 import net.ccbluex.liquidbounce.ui.font.Fonts
 import net.ccbluex.liquidbounce.utils.block.BlockUtils.canBeClicked
 import net.ccbluex.liquidbounce.utils.block.BlockUtils.getBlock
-import net.ccbluex.liquidbounce.utils.render.ColorUtils
+import net.ccbluex.liquidbounce.utils.render.ColorUtils.rainbow
 import net.ccbluex.liquidbounce.utils.render.RenderUtils
-import net.ccbluex.liquidbounce.value.*
+import net.ccbluex.liquidbounce.value.BoolValue
+import net.ccbluex.liquidbounce.value.IntegerValue
 import net.minecraft.block.Block
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.BlockPos
-import net.ccbluex.liquidbounce.features.module.modules.color.ColorMixer
 import org.lwjgl.opengl.GL11
 import java.awt.Color
 
 @ModuleInfo(name = "BlockOverlay", spacedName = "Block Overlay", description = "Allows you to change the design of the block overlay.", category = ModuleCategory.RENDER)
 class BlockOverlay : Module() {
-	private val colorRedValue = IntegerValue("Red", 68, 0, 255)
-    private val colorGreenValue = IntegerValue("Green", 117, 0, 255)
-    private val colorBlueValue = IntegerValue("Blue", 255, 0, 255)
-    private val colorAlphaValue = IntegerValue("Alpha", 135, 0, 255)
-    val rainbowValue = ListValue("Color-Mode", arrayOf("CRainbow", "SkyRainbow", "LiquidSlowly", "Fade", "Mixer", "Lantern", "Custom"), "SkyRainbow")
+    private val colorRedValue = IntegerValue("R", 68, 0, 255)
+    private val colorGreenValue = IntegerValue("G", 117, 0, 255)
+    private val colorBlueValue = IntegerValue("B", 255, 0, 255)
+    private val colorRainbow = BoolValue("Rainbow", false)
     val infoValue = BoolValue("Info", false)
 
     val currentBlock: BlockPos?
@@ -49,16 +48,9 @@ class BlockOverlay : Module() {
         val blockPos = currentBlock ?: return
         val block = mc.theWorld.getBlockState(blockPos).block ?: return
         val partialTicks = event.partialTicks
-        val rainbowMode = rainbowValue.get()
-        val color = when(rainbowValue.get().toLowerCase()) {
-           "crainbow" -> RenderUtils.getRainbowColor(2, 0.9f, 1.0f, 0)
-           "skyainbow" -> RenderUtils.skyRainbow(0, 0.9f, 1.0f)
-           "fade" -> ColorUtils.fade(Color(colorRedValue.get(), colorGreenValue.get(), colorBlueValue.get(), colorAlphaValue.get()), 0, 100)
-           "mixer" -> ColorMixer.getMixedColor(0, 2)
-           "lantern" -> ColorUtils.lantern(0, 100)
-           else -> Color(colorRedValue.get(), colorGreenValue.get(), colorBlueValue.get(), colorAlphaValue.get())
-        }
-        
+        val color = if (colorRainbow.get()) rainbow(0.4F) else Color(colorRedValue.get(),
+                colorGreenValue.get(), colorBlueValue.get(), (0.4F * 255).toInt())
+
         GlStateManager.enableBlend()
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
         RenderUtils.glColor(color)

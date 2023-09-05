@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.player
 
@@ -10,7 +10,7 @@ import net.ccbluex.liquidbounce.features.module.ModuleCategory
 import net.ccbluex.liquidbounce.features.module.ModuleInfo
 import net.ccbluex.liquidbounce.value.FloatValue
 
-@ModuleInfo(name = "Reach", description = "Increases your reach.", category = ModuleCategory.GHOST)
+@ModuleInfo(name = "Reach", description = "Increases your reach.", category = ModuleCategory.PLAYER)
 class Reach : Module() {
 
     val combatReachValue = FloatValue("CombatReach", 3.5f, 3f, 7f, "m")

@@ -1,9 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
- * 
- * This code belongs to WYSI-Foundation. Please give credits when using this in your repository.
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -132,7 +130,7 @@ class FriendCommand : Command("friend", arrayOf("friends")) {
         return when (args.size) {
             1 -> listOf("add", "addall", "remove", "removeall", "list", "clear").filter { it.startsWith(args[0], true) }
             2 -> {
-                when (args[0].toLowerCase()) {
+                when (args[0].lowercase()) {
                     "add" -> {
                         return mc.theWorld.playerEntities
                             .map { it.name }

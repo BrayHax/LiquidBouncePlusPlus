@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.player
 
@@ -27,7 +27,7 @@ class KeepAlive : Module() {
     @EventTarget
     fun onMotion(event: MotionEvent) {
         if (mc.thePlayer!!.health <= maxHealthValue.get()) {
-            when (modeValue.get().toLowerCase()) {
+            when (modeValue.get().lowercase()) {
                 "/heal" -> mc.thePlayer.sendChatMessage("/heal")
                 "soup" -> {
                     val soupInHotbar = InventoryUtils.findItem(36, 45, Items.mushroom_stew)

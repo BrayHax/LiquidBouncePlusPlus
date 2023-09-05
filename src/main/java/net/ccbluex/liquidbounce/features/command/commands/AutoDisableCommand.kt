@@ -1,9 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
- * 
- * This code belongs to WYSI-Foundation. Please give credits when using this in your repository.
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -20,11 +18,11 @@ class AutoDisableCommand : Command("autodisable", arrayOf("ad")) {
      */
     override fun execute(args: Array<String>) {
         if (args.size == 2) {
-            when (args[1].toLowerCase()) {
+            when (args[1].lowercase()) {
                 "list" -> {
                     chat("§c§lAutoDisable modules:")
                     LiquidBounce.moduleManager.modules.filter { it.autoDisables.size > 0 }.forEach {
-                        ClientUtils.displayChatMessage("§6> §c${it.name} §7| §a${it.autoDisables.map { d -> d.name.toLowerCase() }.joinToString()}")
+                        ClientUtils.displayChatMessage("§6> §c${it.name} §7| §a${it.autoDisables.map { d -> d.name.lowercase() }.joinToString()}")
                     }
                     return
                 }
@@ -54,7 +52,7 @@ class AutoDisableCommand : Command("autodisable", arrayOf("ad")) {
             }
 
             try {
-                val disableWhen = DisableEvent.valueOf(args[2].toUpperCase())
+                val disableWhen = DisableEvent.valueOf(args[2].uppercase())
 
                 var added = "will now"
                 if (module.autoDisables.contains(disableWhen)) {

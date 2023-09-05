@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.movement;
 
@@ -13,6 +13,7 @@ import net.ccbluex.liquidbounce.features.module.ModuleInfo;
 import net.ccbluex.liquidbounce.features.module.modules.exploit.Disabler;
 import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.SpeedMode;
 import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.aac.*;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.matrix.*;
 import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.hypixel.*;
 import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.ncp.*;
 import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.other.*;
@@ -44,6 +45,8 @@ public class Speed extends Module {
             new NCPYPort(),
 
             // AAC
+            new AAC4FastHop(),
+            new AAC4LongHop(),
             new AAC4Hop(),
             new AAC4SlowHop(),
             new AACv4BHop(),
@@ -70,7 +73,6 @@ public class Speed extends Module {
             // Hypixel
             new HypixelBoost(),
             new HypixelStable(),
-            new HypixelStrafeLess(),
             new HypixelCustom(),
 
             // Spartan
@@ -83,6 +85,7 @@ public class Speed extends Module {
 
             // Other
             new SlowHop(),
+            new StrafeHop(),
             new CustomSpeed(),
             new Jump(),
             new Legit(),
@@ -97,14 +100,20 @@ public class Speed extends Module {
             new HiveHop(),
             new MineplexGround(),
             new TeleportCubeCraft(),
-        
+
             // Verus
             new VerusHop(),
             new VerusLowHop(),
-            new VerusHard()
+            new VerusHard(),
+
+            // Matrix
+            new MatrixSemiStrafe(),
+            new MatrixTimerBalance(),
+            new MatrixMultiply(),
+            new MatrixDynamic()
     };
 
-    public final ListValue typeValue = new ListValue("Type", new String[]{"NCP", "AAC", "Spartan", "Spectre", "Hypixel", "Verus", "Custom", "Other"}, "NCP") {
+    public final ListValue typeValue = new ListValue("Type", new String[]{"NCP", "AAC", "Spartan", "Spectre", "Hypixel", "Verus", "Matrix", "Custom", "Other"}, "NCP") {
 
         @Override
         protected void onChange(final String oldValue, final String newValue) {
@@ -135,6 +144,8 @@ public class Speed extends Module {
     };
 
     public final ListValue aacModeValue = new ListValue("AAC-Mode", new String[]{
+    	"4FastHop",
+        "4LongHop",
         "4Hop", 
         "4SlowHop", 
         "v4BHop",
@@ -172,7 +183,7 @@ public class Speed extends Module {
         }
     };
 
-    public final ListValue hypixelModeValue = new ListValue("Hypixel-Mode", new String[]{"Boost", "Stable", "StrafeLess", "Custom"}, "Stable", () -> typeValue.get().equalsIgnoreCase("hypixel")) { // the worst hypixel bypass ever existed
+    public final ListValue hypixelModeValue = new ListValue("Hypixel-Mode", new String[]{"Boost", "Stable", "Custom"}, "Stable", () -> typeValue.get().equalsIgnoreCase("hypixel")) { // the worst hypixel bypass ever existed
 
         @Override
         protected void onChange(final String oldValue, final String newValue) {
@@ -202,7 +213,7 @@ public class Speed extends Module {
         }
     };
 
-    public final ListValue otherModeValue = new ListValue("Other-Mode", new String[]{"YPort", "YPort2", "Boost", "Frame", "MiJump", "OnGround", "SlowHop", "Jump", "Legit", "AEMine", "GWEN", "HiveHop", "MineplexGround", "TeleportCubeCraft"}, "Boost", () -> typeValue.get().equalsIgnoreCase("other")) {
+    public final ListValue otherModeValue = new ListValue("Other-Mode", new String[]{"YPort", "YPort2", "Boost", "Frame", "MiJump", "OnGround", "SlowHop", "StrafeHop", "Jump", "Legit", "AEMine", "GWEN", "HiveHop", "MineplexGround", "TeleportCubeCraft"}, "Boost", () -> typeValue.get().equalsIgnoreCase("other")) {
 
         @Override
         protected void onChange(final String oldValue, final String newValue) {
@@ -228,6 +239,21 @@ public class Speed extends Module {
         @Override
         protected void onChanged(final String oldValue, final String newValue) {
             if(getState())
+                onEnable();
+        }
+    };
+
+    public final ListValue matrixModeValue = new ListValue("Matrix-Mode", new String[]{"MatrixSemiStrafe", "MatrixTimerBalance", "MatrixMultiply", "MatrixDynamic"}, "MatrixSemiStrafe", () -> typeValue.get().equalsIgnoreCase("matrix")) {
+
+        @Override
+        protected void onChange(final String oldValue, final String newValue) {
+            if (getState())
+                onDisable();
+        }
+
+        @Override
+        protected void onChanged(final String oldValue, final String newValue) {
+            if (getState())
                 onEnable();
         }
     };
@@ -258,7 +284,6 @@ public class Speed extends Module {
 
     public final BoolValue sendJumpValue = new BoolValue("SendJump", true, () -> (typeValue.get().equalsIgnoreCase("hypixel") && !getModeName().equalsIgnoreCase("hypixelcustom")));
     public final BoolValue recalcValue = new BoolValue("ReCalculate", true, () -> (typeValue.get().equalsIgnoreCase("hypixel") && sendJumpValue.get() && !getModeName().equalsIgnoreCase("hypixelcustom")));
-    public final BoolValue strafeOnDmg = new BoolValue("StrafeOnDamage", true, () -> (typeValue.get().equalsIgnoreCase("hypixel") && getModeName().equalsIgnoreCase("hypixelstrafeless")));
     public final FloatValue glideStrengthValue = new FloatValue("GlideStrength", 0.03F, 0F, 0.05F, () -> (typeValue.get().equalsIgnoreCase("hypixel") && !getModeName().equalsIgnoreCase("hypixelcustom")));
     public final FloatValue moveSpeedValue = new FloatValue("MoveSpeed", 1.47F, 1F, 1.7F, () -> (typeValue.get().equalsIgnoreCase("hypixel") && !getModeName().equalsIgnoreCase("hypixelcustom")));
     public final FloatValue jumpYValue = new FloatValue("JumpY", 0.42F, 0F, 1F, () -> (typeValue.get().equalsIgnoreCase("hypixel") && !getModeName().equalsIgnoreCase("hypixelcustom")));
@@ -266,7 +291,6 @@ public class Speed extends Module {
     public final FloatValue baseTimerValue = new FloatValue("BaseTimer", 1.5F, 1F, 3F, () -> getModeName().equalsIgnoreCase("hypixelboost"));
     public final FloatValue baseMTimerValue = new FloatValue("BaseMultiplierTimer", 1F, 0F, 3F, () -> getModeName().equalsIgnoreCase("hypixelboost"));
     public final BoolValue bypassWarning = new BoolValue("BypassWarning", true, () -> (typeValue.get().equalsIgnoreCase("hypixel") && !getModeName().equalsIgnoreCase("hypixelcustom")));
-    public final BoolValue fastFall = new BoolValue("FastFall", true, () -> (typeValue.get().equalsIgnoreCase("hypixel") && !getModeName().equalsIgnoreCase("hypixelcustom")));
 
     public final FloatValue portMax = new FloatValue("AAC-PortLength", 1, 1, 20, () -> typeValue.get().equalsIgnoreCase("aac"));
     public final FloatValue aacGroundTimerValue = new FloatValue("AACGround-Timer", 3F, 1.1F, 10F, () -> typeValue.get().equalsIgnoreCase("aac"));
@@ -346,10 +370,6 @@ public class Speed extends Module {
             LiquidBounce.hud.addNotification(new Notification("Disabler is OFF! Disable this notification in settings.", Notification.Type.WARNING, 3000L));
         }
 
-        if (bypassWarning.get() && typeValue.get().equalsIgnoreCase("hypixel") && getModeName().equalsIgnoreCase("hypixelstrafeless")) {
-            LiquidBounce.hud.addNotification(new Notification("Speed is in development, use it as your risk.", Notification.Type.WARNING, 3000L));
-        }
-
         mc.timer.timerSpeed = 1F;
 
         final SpeedMode speedMode = getMode();
@@ -404,6 +424,9 @@ public class Speed extends Module {
             case "Verus":
             mode = verusModeValue.get();
             break;
+            case "Matrix":
+            mode = matrixModeValue.get();
+            break;
         }
         return mode;
     }
@@ -436,6 +459,9 @@ public class Speed extends Module {
             break;
             case "Other":
             mode = otherModeValue.get();
+            break;
+            case "Matrix":
+            mode = matrixModeValue.get();
             break;
         }
         return mode;

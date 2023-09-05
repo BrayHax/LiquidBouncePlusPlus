@@ -1,9 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
- * 
- * This code belongs to WYSI-Foundation. Please give credits when using this in your repository.
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.movement
 
@@ -151,7 +149,7 @@ class TargetStrafe : Module() {
     }
 
     val keyMode: Boolean
-        get() = when (modeValue.get().toLowerCase()) {
+        get() = when (modeValue.get().lowercase()) {
             "jump" -> mc.gameSettings.keyBindJump.isKeyDown
             "none" -> mc.thePlayer.movementInput.moveStrafe != 0f || mc.thePlayer.movementInput.moveForward != 0f
             else -> false

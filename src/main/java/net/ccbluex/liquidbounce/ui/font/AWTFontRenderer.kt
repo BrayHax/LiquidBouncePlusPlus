@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.font
 
@@ -25,8 +25,8 @@ class AWTFontRenderer(val font: Font, startChar: Int = 0, stopChar: Int = 255) {
         val activeFontRenderers: ArrayList<AWTFontRenderer> = ArrayList()
 
         private var gcTicks: Int = 0
-        private const val GC_TICKS = 600 // Start garbage collection every 600 frames
-        private const val CACHED_FONT_REMOVAL_TIME = 30000 // Remove cached texts after 30s of not being used
+        private const val GC_TICKS = 400 // Start garbage collection every 600 frames
+        private const val CACHED_FONT_REMOVAL_TIME = 20000 // Remove cached texts after 30s of not being used
 
         fun garbageCollectionTick() {
             if (gcTicks++ > GC_TICKS) {

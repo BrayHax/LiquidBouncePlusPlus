@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -22,7 +22,7 @@ class ToggleCommand : Command("toggle", arrayOf("t")) {
             }
 
             if (args.size > 2) {
-                val newState = args[2].toLowerCase();
+                val newState = args[2].lowercase();
 
                 if (newState == "on" || newState == "off") {
                     module.state = newState == "on"

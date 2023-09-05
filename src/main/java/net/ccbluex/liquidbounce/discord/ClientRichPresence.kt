@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.discord
 
@@ -42,7 +42,7 @@ class ClientRichPresence : MinecraftInstance() {
 
             loadConfiguration()
 
-            ipcClient = IPCClient(appID)
+            ipcClient = IPCClient(1084833955494244404)
             ipcClient?.setListener(object : IPCListener {
 
                 /**
@@ -91,27 +91,23 @@ class ClientRichPresence : MinecraftInstance() {
         builder.setStartTimestamp(timestamp)
 
         // Check assets contains logo and set logo
-        if (assets.containsKey("lantern"))
-            builder.setLargeImage(assets["lantern"], "Playing on version: ${LiquidBounce.CLIENT_VERSION}")
+        if (assets.containsKey("text"))
+            builder.setLargeImage("https://plusplusmc.github.io/Client-Assets/rpcimage/20220410_100411.jpg", "Please join my new discord :pray:")
 
         val serverData = mc.currentServerData
 
         // Set display infos
         builder.setDetails(if (Display.isActive()) (if (mc.isIntegratedServerRunning || serverData != null) "Playing" else "Idle...") else "AFK")
-        builder.setState("Name: ${mc.session.username}")
+        builder.setState("Using version: " + LiquidBounce.CLIENT_VERSION)
 
-        if (serverData != null) {
-            if(mc.isIntegratedServerRunning) builder.setSmallImage(assets["playing"], "Playing on Singleplayer")
-            if(serverData.serverIP == "np.coldpvp.com" || serverData.serverIP == "coldpvp.com") builder.setSmallImage(assets["coldpvp"], "Playing on ColdPvP")
-            if(serverData.serverIP == "hypixel.net") builder.setSmallImage(assets["hypixel"], "Playing on Hypixel")
-            if(serverData.serverIP == "blocksmc.com" || serverData.serverIP == "premium.blocksmc.com") builder.setSmallImage(assets["blocksmc"], "Playing on BlocksMC")
-            if(serverData.serverIP == "mc.minebox.es") builder.setSmallImage(assets["minebox"], "Playing on MineBox")
-            if(serverData!!.serverIP != "hypixel.net" || serverData!!.serverIP != "coldpvp.com" || serverData!!.serverIP != "np.coldpvp.com" || serverData!!.serverIP != "mc.minebox.es" || serverData!!.serverIP != "blocksmc.com" || serverData!!.serverIP != "premium.blocksmc.com") 
-                builder.setSmallImage(assets["playing"], "Playing on ${serverData.serverIP}")
-         }
-         
+        if (mc.isIntegratedServerRunning || serverData != null) 
+            builder.setSmallImage(assets["sus"], "${if (mc.isIntegratedServerRunning || serverData == null) "Singleplayer" else serverData.serverIP}")
+        else
+            builder.setSmallImage(assets["sus"], "Enabled ${LiquidBounce.moduleManager.modules.count { it.state }}/${LiquidBounce.moduleManager.modules.size}.")
+
         // Check ipc client is connected and send rpc
-        if (ipcClient?.status == PipeStatus.CONNECTED) ipcClient?.sendRichPresence(builder.build())
+        if (ipcClient?.status == PipeStatus.CONNECTED)
+            ipcClient?.sendRichPresence(builder.build())
     }
 
     /**
@@ -130,14 +126,8 @@ class ClientRichPresence : MinecraftInstance() {
     }
 
     private fun loadConfiguration() {
-        appID = 814702169080987649L
-        assets["coldpvp"] = "coldpvp"
-        assets["hypixel"] = "hypixel"
-        assets["blocksmc"] = "blocksmc"
-        assets["minebox"] = "minebox"
-        assets["mineplex"] = "mineplex"
-        assets["idk"] = "idk"
-        assets["playing"] = "playing"
-        assets["lantern"] = "lantern"
+        appID = 1084833955494244404L
+        assets["logo"] = "logo"
+        assets["sus"] = "sus"
     }
 }

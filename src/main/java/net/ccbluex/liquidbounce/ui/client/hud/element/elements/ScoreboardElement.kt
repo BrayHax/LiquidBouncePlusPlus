@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.element.elements
 
@@ -72,7 +72,7 @@ class ScoreboardElement(x: Double = 5.0, y: Double = 0.0, scale: Float = 1F,
     private val bgRoundedValue = BoolValue("Rounded", false)
     private val roundStrength = FloatValue("Rounded-Strength", 5F, 0F, 30F, { bgRoundedValue.get() })
 
-    private val rectColorModeValue = ListValue("Color", arrayOf("Custom", "Rainbow", "LiquidSlowly", "Fade", "Sky", "Mixer", "Lantern"), "Custom")
+    private val rectColorModeValue = ListValue("Color", arrayOf("Custom", "Rainbow", "LiquidSlowly", "Fade", "Sky", "Mixer"), "Custom")
     
     private val rectColorRedValue = IntegerValue("Red", 0, 0, 255)
     private val rectColorGreenValue = IntegerValue("Green", 111, 0, 255)
@@ -179,7 +179,6 @@ class ScoreboardElement(x: Double = 5.0, y: Double = 0.0, scale: Float = 1F,
         val l1 = if (side.horizontal == Side.Horizontal.LEFT) {maxWidth + 3} else {-maxWidth - 3}
 
         var FadeColor : Int = ColorUtils.fade(Color(rectColorRedValue.get(), rectColorGreenValue.get(), rectColorBlueValue.get(), rectColorBlueAlpha.get()), 0, 100).rgb
-        var LanternColor : Int = ColorUtils.lantern(0, 100).rgb
         val LiquidSlowly = ColorUtils.LiquidSlowly(System.nanoTime(), 0, saturationValue.get(), brightnessValue.get())?.rgb
         var liquidSlowli : Int = LiquidSlowly!!
 
@@ -301,13 +300,12 @@ class ScoreboardElement(x: Double = 5.0, y: Double = 0.0, scale: Float = 1F,
 
             // rect
             if (rectValue.get()) {
-                val rectColor = when (rectColorMode.toLowerCase()) {
+                val rectColor = when (rectColorMode.lowercase()) {
                     "sky" -> RenderUtils.SkyRainbow(0, saturationValue.get(), brightnessValue.get())
                     "rainbow" -> RenderUtils.getRainbowOpaque(cRainbowSecValue.get(), saturationValue.get(), brightnessValue.get(), 0)
                     "liquidslowly" -> liquidSlowli
                     "fade" -> FadeColor
                     "mixer" -> mixerColor
-                    "lantern" -> LanternColor
                     else -> rectCustomColor
                 }
 
@@ -363,12 +361,11 @@ class ScoreboardElement(x: Double = 5.0, y: Double = 0.0, scale: Float = 1F,
                                 Color(rectColorRedValue.get(), rectColorGreenValue.get(), rectColorBlueValue.get(), rectColorBlueAlpha.get()), 
                                 z * delayValue.get(), 
                                 100).rgb
-                            rectColorMode.equals("Lantern", ignoreCase = true) -> ColorUtils.lantern(z * delayValue.get(), 100).rgb
                             rectColorMode.equals("Mixer", ignoreCase = true) -> ColorMixer.getMixedColor(z * delayValue.get(), cRainbowSecValue.get()).rgb
                             else -> rectCustomColor
                         }
                     if (side.horizontal == Side.Horizontal.LEFT) {
-                        when (domainShadowValue.get().toLowerCase()) {
+                        when (domainShadowValue.get().lowercase()) {
                             "none" -> domainFontValue.get().drawString(name.get(z).toString(), -3F + domainFontValue.get().getStringWidth(stringZ).toFloat(), height.toFloat() + domainFontYValue.get(), typeColor, false)
                             "default" -> domainFontValue.get().drawStringWithShadow(name.get(z).toString(), -3F + domainFontValue.get().getStringWidth(stringZ).toFloat(), height.toFloat() + domainFontYValue.get(), typeColor)
                             "outline" -> {
@@ -380,7 +377,7 @@ class ScoreboardElement(x: Double = 5.0, y: Double = 0.0, scale: Float = 1F,
                             }
                         }
                     } else {
-                        when (domainShadowValue.get().toLowerCase()) {
+                        when (domainShadowValue.get().lowercase()) {
                             "none" -> domainFontValue.get().drawString(name.get(z).toString(), l1.toFloat() + domainFontValue.get().getStringWidth(stringZ), height.toFloat() + domainFontYValue.get(), typeColor, false)
                             "default" -> domainFontValue.get().drawStringWithShadow(name.get(z).toString(), l1.toFloat() + domainFontValue.get().getStringWidth(stringZ), height.toFloat() + domainFontYValue.get(), typeColor)
                             "outline" -> {

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -14,7 +14,7 @@ import net.ccbluex.liquidbounce.utils.misc.StringUtils
 import java.io.File
 import java.io.IOException
 
-class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "localsettings", "localconfig", "localautosettings")) {
+class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "locateautosettings", "locateautosetting", "localsettings", "localconfig")) {
     /**
      * Execute commands with provided [args]
      */
@@ -27,12 +27,12 @@ class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "loca
 
                         if (scriptFile.exists()) {
                             try {
-                                chat("§9Loading Config " + args[2])
+                                chat("§9Loading config...")
                                 val settings = scriptFile.readText()
-                                chat("§9Setting up...")
+                                chat("§9Set config...")
                                 SettingsUtils.executeScript(settings)
-                                chat("§6Config " + args[2] + " loaded.")
-                                LiquidBounce.hud.addNotification(Notification("Loaded Config.", Notification.Type.SUCCESS))
+                                chat("§6Config applied successfully.")
+                                LiquidBounce.hud.addNotification(Notification("Config Loaded", Notification.Type.SUCCESS))
                                 playEdit()
                             } catch (e: IOException) {
                                 e.printStackTrace()
@@ -41,7 +41,7 @@ class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "loca
                             return
                         }
 
-                        chat("§cConfig " + args[2] + " does not exist!")
+                        chat("§cConfig file does not exist!")
                         return
                     }
 
@@ -63,7 +63,7 @@ class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "loca
                                     return
                                 }
 
-                            val option = if (args.size > 3) StringUtils.toCompleteString(args, 3).toLowerCase() else "values states"
+                            val option = if (args.size > 3) StringUtils.toCompleteString(args, 3).lowercase() else "values states"
                             val values = option.contains("all") || option.contains("values")
                             val binds = option.contains("all") || option.contains("binds")
                             val states = option.contains("all") || option.contains("states")
@@ -72,11 +72,11 @@ class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "loca
                                 return
                             }
 
-                            chat("§9Creating Config...")
+                            chat("§9Creating config...")
                             val settingsScript = SettingsUtils.generateScript(values, binds, states)
-                            chat("§9Saving Config...")
+                            chat("§9Saving config...")
                             scriptFile.writeText(settingsScript)
-                            chat("§6Config " + args[2] + " created successfully.")
+                            chat("§6Config saved successfully.")
                         } catch (throwable: Throwable) {
                             chat("§cFailed to create config: §3${throwable.message}")
                             ClientUtils.getLogger().error("Failed to create config.", throwable)
@@ -94,11 +94,11 @@ class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "loca
 
                         if (scriptFile.exists()) {
                             scriptFile.delete()
-                            chat("§6Config " + args[2] + " deleted successfully.")
+                            chat("§6Config file deleted successfully.")
                             return
                         }
 
-                        chat("§cConfig " + args[2] + " does not exist!")
+                        chat("§cConfig file does not exist!")
                         return
                     }
 
@@ -107,12 +107,12 @@ class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "loca
                 }
 
                 args[1].equals("list", ignoreCase = true) -> {
-                    chat("§cConfig:")
+                    chat("§cSettings:")
 
                     val settings = this.getLocalSettings() ?: return
 
                     for (file in settings)
-                        chat("- " + file.name)
+                        chat("> " + file.name)
                     return
                 }
             }
@@ -126,7 +126,7 @@ class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "loca
         return when (args.size) {
             1 -> listOf("delete", "list", "load", "save").filter { it.startsWith(args[0], true) }
             2 -> {
-                when (args[0].toLowerCase()) {
+                when (args[0].lowercase()) {
                     "delete", "load" -> {
                         val settings = this.getLocalSettings() ?: return emptyList()
 

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.injection.forge.mixins.gui;
 
@@ -11,6 +11,7 @@ import net.ccbluex.liquidbounce.features.module.modules.render.HUD;
 import net.ccbluex.liquidbounce.ui.client.GuiBackground;
 import net.ccbluex.liquidbounce.utils.render.ParticleUtils;
 import net.ccbluex.liquidbounce.utils.render.shader.shaders.BackgroundShader;
+import net.ccbluex.liquidbounce.utils.render.shader.shaders.BackgroundDarkShader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -86,7 +87,7 @@ public abstract class MixinGuiScreen {
     }
 
     /**
-     * @author CCBlueX
+     * @author CCBlueX & TheMosKau
      */
     @Inject(method = "drawBackground", at = @At("HEAD"), cancellable = true)
     private void drawClientBackground(final CallbackInfo callbackInfo) {
@@ -95,18 +96,33 @@ public abstract class MixinGuiScreen {
 
         if(GuiBackground.Companion.getEnabled()) {
             if (LiquidBounce.INSTANCE.getBackground() == null) {
-                BackgroundShader.BACKGROUND_SHADER.startShader();
+                if(!LiquidBounce.INSTANCE.getdarkMode()) {
+                   BackgroundShader.BACKGROUND_SHADER.startShader();
 
-                final Tessellator instance = Tessellator.getInstance();
-                final WorldRenderer worldRenderer = instance.getWorldRenderer();
-                worldRenderer.begin(7, DefaultVertexFormats.POSITION);
-                worldRenderer.pos(0, height, 0.0D).endVertex();
-                worldRenderer.pos(width, height, 0.0D).endVertex();
-                worldRenderer.pos(width, 0, 0.0D).endVertex();
-                worldRenderer.pos(0, 0, 0.0D).endVertex();
-                instance.draw();
+                   final Tessellator instance = Tessellator.getInstance();
+                   final WorldRenderer worldRenderer = instance.getWorldRenderer();
+                   worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+                   worldRenderer.pos(0, height, 0.0D).endVertex();
+                   worldRenderer.pos(width, height, 0.0D).endVertex();
+                   worldRenderer.pos(width, 0, 0.0D).endVertex();
+                   worldRenderer.pos(0, 0, 0.0D).endVertex();
+                   instance.draw();
 
-                BackgroundShader.BACKGROUND_SHADER.stopShader();
+                   BackgroundShader.BACKGROUND_SHADER.stopShader();
+                } else {
+                   BackgroundShader.BACKGROUND_SHADER.startShader();
+
+                   final Tessellator instance = Tessellator.getInstance();
+                   final WorldRenderer worldRenderer = instance.getWorldRenderer();
+                   worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+                   worldRenderer.pos(0, height, 0.0D).endVertex();
+                   worldRenderer.pos(width, height, 0.0D).endVertex();
+                   worldRenderer.pos(width, 0, 0.0D).endVertex();
+                   worldRenderer.pos(0, 0, 0.0D).endVertex();
+                   instance.draw();
+
+                   BackgroundShader.BACKGROUND_SHADER.stopShader();
+                  }
             }else{
                 final ScaledResolution scaledResolution = new ScaledResolution(mc);
                 final int width = scaledResolution.getScaledWidth();

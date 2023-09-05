@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.utils.render
 
@@ -109,17 +109,6 @@ object ColorUtils {
     fun fade(color: Color, index: Int, count: Int): Color {
         val hsb = FloatArray(3)
         Color.RGBtoHSB(color.red, color.green, color.blue, hsb)
-        var brightness =
-            abs(((System.currentTimeMillis() % 2000L).toFloat() / 1000.0f + index.toFloat() / count.toFloat() * 2.0f) % 2.0f - 1.0f)
-        brightness = 0.5f + 0.5f * brightness
-        hsb[2] = brightness % 2.0f
-        return Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]))
-    }
-    
-    @JvmStatic
-    fun lantern(index: Int, count: Int): Color {
-        val hsb = FloatArray(3)
-        Color.RGBtoHSB(246, 235, 110, hsb)
         var brightness =
             abs(((System.currentTimeMillis() % 2000L).toFloat() / 1000.0f + index.toFloat() / count.toFloat() * 2.0f) % 2.0f - 1.0f)
         brightness = 0.5f + 0.5f * brightness

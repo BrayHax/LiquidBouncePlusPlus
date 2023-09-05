@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.combat
 
@@ -18,7 +18,7 @@ import net.ccbluex.liquidbounce.value.IntegerValue
 import net.minecraft.client.settings.KeyBinding
 import kotlin.random.Random
 
-@ModuleInfo(name = "AutoClicker", spacedName = "Auto Clicker", description = "Constantly clicks when holding down a mouse button.", category = ModuleCategory.GHOST)
+@ModuleInfo(name = "AutoClicker", spacedName = "Auto Clicker", description = "Constantly clicks when holding down a mouse button.", category = ModuleCategory.COMBAT)
 class AutoClicker : Module() {
     private val maxCPSValue: IntegerValue = object : IntegerValue("MaxCPS", 8, 1, 20) {
 

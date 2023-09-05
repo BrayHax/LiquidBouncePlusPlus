@@ -17,9 +17,9 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.Collection;
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -61,13 +61,13 @@ public class Platform implements ViaPlatform<UUID> {
     }
 
     @Override
-    public String getPluginVersion() {
-        return "4.5.0";
+    public boolean isProxy() {
+        return ViaPlatform.super.isProxy();
     }
 
     @Override
-    public boolean isProxy() {
-        return ViaPlatform.super.isProxy();
+    public String getPluginVersion() {
+        return "4.5.1";
     }
 
     @Override
@@ -99,6 +99,12 @@ public class Platform implements ViaPlatform<UUID> {
          return new FutureTaskId(ViaForge.getInstance().getEventLoop().scheduleAtFixedRate(() -> runSync(runnable),
                  0, ticks * 50, TimeUnit.MILLISECONDS).addListener(errorLogger()));
     }
+	
+	@Override
+    public PlatformTask runRepeatingAsync(Runnable runnable, long ticks) {
+         return new FutureTaskId(ViaForge.getInstance().getEventLoop().scheduleAtFixedRate(() -> runSync(runnable),
+                 0, ticks * 50, TimeUnit.MILLISECONDS).addListener(errorLogger()));
+    }
 
     private <T extends Future<?>> GenericFutureListener<T> errorLogger() {
         return future -> {
@@ -124,6 +130,11 @@ public class Platform implements ViaPlatform<UUID> {
     @Override
     public boolean kickPlayer(UUID uuid, String s) {
         return false;
+    }
+
+    @Override
+    public boolean disconnect(UserConnection connection, String message) {
+        return ViaPlatform.super.disconnect(connection, message);
     }
 
     @Override
@@ -175,5 +186,4 @@ public class Platform implements ViaPlatform<UUID> {
     public boolean hasPlugin(String name) {
         return false;
     }
-    
 }

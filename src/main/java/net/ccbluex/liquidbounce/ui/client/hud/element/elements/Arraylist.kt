@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.element.elements
 
@@ -36,7 +36,7 @@ import org.lwjgl.opengl.GL11
 @ElementInfo(name = "Arraylist", single = true)
 class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                 side: Side = Side(Horizontal.RIGHT, Vertical.UP)) : Element(x, y, scale, side) {
-    private val colorModeValue = ListValue("Color", arrayOf("Custom", "Random", "Sky", "CRainbow", "LiquidSlowly", "Fade", "Mixer", "Lantern"), "Custom")
+    private val colorModeValue = ListValue("Color", arrayOf("Custom", "Random", "Sky", "CRainbow", "LiquidSlowly", "Fade", "Mixer"), "Custom")
     private val blurValue = BoolValue("Blur", false)
     private val blurStrength = FloatValue("Blur-Strength", 0F, 0F, 30F, { blurValue.get() })
     private val shadowShaderValue = BoolValue("Shadow", false)
@@ -59,7 +59,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
     private val mixerDistValue = IntegerValue("Mixer-Distance", 2, 0, 10)
     private val liquidSlowlyDistanceValue = IntegerValue("LiquidSlowly-Distance", 90, 1, 90)
     private val fadeDistanceValue = IntegerValue("Fade-Distance", 50, 1, 100)
-    private val lanternDistanceValue = IntegerValue("Lantern-Distance", 50, 1, 100)
     private val hAnimation = ListValue("HorizontalAnimation", arrayOf("Default", "None", "Slide", "Astolfo"), "Default")
     private val vAnimation = ListValue("VerticalAnimation", arrayOf("None", "LiquidSense", "Slide", "Rise", "Astolfo"), "None")
     private val animationSpeed = FloatValue("Animation-Speed", 0.25F, 0.01F, 1F)
@@ -223,7 +222,7 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                                     module.arrayY,
                                     if (rectRightValue.get().equals("right", true)) -1F else 0F,
                                     module.arrayY + textHeight,
-                                    when (shadowColorMode.get().toLowerCase()) {
+                                    when (shadowColorMode.get().lowercase()) {
                                         "background" -> Color(backgroundColorRedValue.get(), backgroundColorGreenValue.get(), backgroundColorBlueValue.get()).rgb
                                         "text" -> {
                                             val moduleColor = Color.getHSBColor(module.hue, saturation, brightness).rgb
@@ -231,7 +230,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                                             var Sky = RenderUtils.SkyRainbow(counter[0] * (skyDistanceValue.get() * 50), saturationValue.get(), brightnessValue.get())
                                             var CRainbow = RenderUtils.getRainbowOpaque(cRainbowSecValue.get(), saturationValue.get(), brightnessValue.get(), counter[0] * (50 * cRainbowDistValue.get()))
                                             var FadeColor = ColorUtils.fade(Color(colorRedValue.get(), colorGreenValue.get(), colorBlueValue.get(), colorAlphaValue.get()), index * fadeDistanceValue.get(), 100).rgb
-                                            var LanternColor = ColorUtils.lantern(index * lanternDistanceValue.get(), 100).rgb
                                             counter[0] = counter[0] - 1 
 
                                             val test = ColorUtils.LiquidSlowly(System.nanoTime(), index * liquidSlowlyDistanceValue.get(), saturationValue.get(), brightnessValue.get())?.rgb
@@ -246,7 +244,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                                                 colorMode.equals("LiquidSlowly", ignoreCase = true) -> LiquidSlowly
                                                 colorMode.equals("Fade", ignoreCase = true) -> FadeColor
                                                 colorMode.equals("Mixer", ignoreCase = true) -> mixerColor
-                                                colorMode.equals("Lantern", ignoreCase = true) -> LanternColor
                                                 else -> customColor
                                             }
                                         }
@@ -320,7 +317,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                     var CRainbow: Int
                     CRainbow = RenderUtils.getRainbowOpaque(cRainbowSecValue.get(), saturationValue.get(), brightnessValue.get(), counter[0] * (50 * cRainbowDistValue.get()))
                     var FadeColor: Int = ColorUtils.fade(Color(colorRedValue.get(), colorGreenValue.get(), colorBlueValue.get(), colorAlphaValue.get()), index * fadeDistanceValue.get(), 100).rgb
-                    var LanternColor = ColorUtils.lantern(index * lanternDistanceValue.get(), 100).rgb
                     counter[0] = counter[0] - 1 
 
                     val test = ColorUtils.LiquidSlowly(System.nanoTime(), index * liquidSlowlyDistanceValue.get(), saturationValue.get(), brightnessValue.get())?.rgb
@@ -342,7 +338,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                         colorMode.equals("LiquidSlowly", ignoreCase = true) -> LiquidSlowly
                         colorMode.equals("Fade", ignoreCase = true) -> FadeColor
                         colorMode.equals("Mixer", ignoreCase = true) -> mixerColor
-                        colorMode.equals("Lantern", ignoreCase = true) -> LanternColor
                         else -> customColor
                     }, textShadow)
                     
@@ -355,7 +350,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                                 rectColorMode.equals("LiquidSlowly", ignoreCase = true) -> LiquidSlowly
                                 rectColorMode.equals("Fade", ignoreCase = true) -> FadeColor
                                 rectColorMode.equals("Mixer", ignoreCase = true) -> mixerColor
-                                rectColorMode.equals("Lantern", ignoreCase = true) -> LanternColor
                                 else -> rectCustomColor
                             }
 
@@ -417,7 +411,7 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                                     module.arrayY,
                                     xPos + width + if (rectLeftValue.get().equals("right", true)) 3F else 2F,
                                     module.arrayY + textHeight,
-                                    when (shadowColorMode.get().toLowerCase()) {
+                                    when (shadowColorMode.get().lowercase()) {
                                         "background" -> Color(backgroundColorRedValue.get(), backgroundColorGreenValue.get(), backgroundColorBlueValue.get()).rgb
                                         "text" -> {
                                             val moduleColor = Color.getHSBColor(module.hue, saturation, brightness).rgb
@@ -425,7 +419,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                                             var Sky = RenderUtils.SkyRainbow(counter[0] * (skyDistanceValue.get() * 50), saturationValue.get(), brightnessValue.get())
                                             var CRainbow = RenderUtils.getRainbowOpaque(cRainbowSecValue.get(), saturationValue.get(), brightnessValue.get(), counter[0] * (50 * cRainbowDistValue.get()))
                                             var FadeColor = ColorUtils.fade(Color(colorRedValue.get(), colorGreenValue.get(), colorBlueValue.get(), colorAlphaValue.get()), index * fadeDistanceValue.get(), 100).rgb
-                                            var LanternColor = ColorUtils.lantern(index * lanternDistanceValue.get(), 100).rgb
                                             counter[0] = counter[0] - 1 
 
                                             val test = ColorUtils.LiquidSlowly(System.nanoTime(), index * liquidSlowlyDistanceValue.get(), saturationValue.get(), brightnessValue.get())?.rgb
@@ -440,7 +433,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                                                 colorMode.equals("LiquidSlowly", ignoreCase = true) -> LiquidSlowly
                                                 colorMode.equals("Fade", ignoreCase = true) -> FadeColor
                                                 colorMode.equals("Mixer", ignoreCase = true) -> mixerColor
-                                                colorMode.equals("Lantern", ignoreCase = true) -> LanternColor
                                                 else -> customColor
                                             }
                                         }
@@ -519,7 +511,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                     var CRainbow: Int
                     CRainbow = RenderUtils.getRainbowOpaque(cRainbowSecValue.get(), saturationValue.get(), brightnessValue.get(), counter[0] * (50 * cRainbowDistValue.get()))
                     var FadeColor: Int = ColorUtils.fade(Color(colorRedValue.get(), colorGreenValue.get(), colorBlueValue.get(), colorAlphaValue.get()), index * fadeDistanceValue.get(), 100).rgb
-                    var LanternColor = ColorUtils.lantern(index * lanternDistanceValue.get(), 100).rgb
                     counter[0] = counter[0] - 1
                     val test = ColorUtils.LiquidSlowly(System.nanoTime(), index * liquidSlowlyDistanceValue.get(), saturationValue.get(), brightnessValue.get())?.rgb
                     var LiquidSlowly : Int = test!!
@@ -540,7 +531,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                         colorMode.equals("LiquidSlowly", ignoreCase = true) -> LiquidSlowly
                         colorMode.equals("Fade", ignoreCase = true) -> FadeColor
                         colorMode.equals("Mixer", ignoreCase = true) -> mixerColor
-                        colorMode.equals("Lantern", ignoreCase = true) -> LanternColor
                         else -> customColor
                     }, textShadow)
                     
@@ -552,7 +542,6 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
                             rectColorMode.equals("LiquidSlowly", ignoreCase = true) -> LiquidSlowly
                             rectColorMode.equals("Fade", ignoreCase = true) -> FadeColor
                             rectColorMode.equals("Mixer", ignoreCase = true) -> mixerColor
-                            rectColorMode.equals("Lantern", ignoreCase = true) -> LanternColor
                             else -> rectCustomColor
                         }
 
@@ -636,9 +625,9 @@ class Arraylist(x: Double = 1.0, y: Double = 2.0, scale: Float = 1F,
     fun getModName(mod: Module): String {
         var displayName : String = (if (nameBreak.get()) mod.spacedName else mod.name) + getModTag(mod)
 
-        when (caseValue.get().toLowerCase()) {
-            "lower" -> displayName = displayName.toLowerCase()
-            "upper" -> displayName = displayName.toUpperCase()
+        when (caseValue.get().lowercase()) {
+            "lower" -> displayName = displayName.lowercase()
+            "upper" -> displayName = displayName.uppercase()
         }
         
         return displayName        

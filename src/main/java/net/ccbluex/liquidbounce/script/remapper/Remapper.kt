@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.script.remapper
 
@@ -33,7 +33,7 @@ object Remapper {
             srgFile.createNewFile()
 
             ClientUtils.getLogger().info("[Remapper] Downloading $srgName srg...")
-            HttpUtils.download("https://wysi-foundation.github.io/LiquidCloud/LiquidBounce/mcp-$srgName.srg", srgFile)
+            HttpUtils.download("${LiquidBounce.CLIENT_CLOUD}/mcp-$srgName.srg", srgFile)
             ClientUtils.getLogger().info("[Remapper] Downloaded $srgName.")
         }
 

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.player
 
@@ -34,7 +34,7 @@ class Gapple : Module() {
 
     @EventTarget
     fun onUpdate(event: UpdateEvent?) {
-        when(modeValue.get().toLowerCase()){
+        when(modeValue.get().lowercase()){
             "once" -> {
                 doEat(true)
                 state = false
@@ -43,7 +43,7 @@ class Gapple : Module() {
                 if (!timer.hasTimePassed(delayValue.get().toLong()))
                     return
                 if (mc.thePlayer.health <= healthValue.get()){
-                    doEat(true)
+                    doEat(false)
                     timer.reset()
                 }
             }

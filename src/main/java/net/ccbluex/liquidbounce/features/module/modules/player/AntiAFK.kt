@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.player
 
@@ -35,14 +35,13 @@ class AntiAFK : Module() {
     private val moveValue = BoolValue("Move", true)
     private val rotateValue = BoolValue("Rotate", true)
     private val swingValue = BoolValue("Swing", true)
-    private val sneakValue = BoolValue("Sneak", false)
 
     private var shouldMove = false
     private var randomTimerDelay = 500L
 
     @EventTarget
     fun onUpdate(event: UpdateEvent) {
-        when (modeValue.get().toLowerCase()) {
+        when (modeValue.get().lowercase()) {
             "old" -> {
                 mc.gameSettings.keyBindForward.pressed = true
 

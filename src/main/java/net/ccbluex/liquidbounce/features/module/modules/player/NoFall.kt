@@ -1,9 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
- *
- * the entirety of this was pasted and modified from FDPClient, give 'em credits when pasting anything here.
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.player
 
@@ -174,8 +172,8 @@ class NoFall : Module() {
                 mc.timer.timerSpeed = 1F
         }
 
-        when (typeValue.get().toLowerCase()) {
-            "packet" -> when (packetMode.get().toLowerCase()) {
+        when (typeValue.get().lowercase()) {
+            "packet" -> when (packetMode.get().lowercase()) {
                 "default" -> {
                     if (mc.thePlayer.fallDistance > 2F)
                         mc.netHandler.addToSendQueue(C03PacketPlayer(true))
@@ -211,7 +209,7 @@ class NoFall : Module() {
                     needSpoof = true
                 }
             }
-            "matrix" -> when (matrixMode.get().toLowerCase()) {
+            "matrix" -> when (matrixMode.get().lowercase()) {
                 "old" -> {
                     if (mc.thePlayer.fallDistance > 3)
                         isDmgFalling = true
@@ -253,7 +251,7 @@ class NoFall : Module() {
                     }
                 }
             }
-            "aac" -> when (aacMode.get().toLowerCase()) {
+            "aac" -> when (aacMode.get().lowercase()) {
                 "default" -> {
                     if (mc.thePlayer.fallDistance > 2f) {
                         mc.netHandler.addToSendQueue(C03PacketPlayer(true))
@@ -439,7 +437,6 @@ class NoFall : Module() {
                     val maxDist = mc.playerController.blockReachDistance + 1.5
                     val collision = NewFallingPlayer.findCollision(ceil(1.0 / mc.thePlayer.motionY * -maxDist).toInt()) ?: return
                     var ok = Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.eyeHeight, mc.thePlayer.posZ).distanceTo(Vec3(collision).addVector(0.5, 0.5, 0.5)) < mc.playerController.blockReachDistance + sqrt(0.75)
-
                     if (mc.thePlayer.motionY < collision.y + 1 - mc.thePlayer.posY)
                         ok = true
 
@@ -549,7 +546,7 @@ class NoFall : Module() {
             }
 
             if (typeValue.get().equals("hypixel", true)) {
-                when (hypixelMode.get().toLowerCase()) {
+                when (hypixelMode.get().lowercase()) {
                     "default" -> if (mc.thePlayer.fallDistance > 1.5) {
                         packet.onGround = mc.thePlayer.ticksExisted % 2 == 0
                     }
@@ -566,7 +563,7 @@ class NoFall : Module() {
             }
 
             if (typeValue.get().equals("aac", true)) {
-                when (aacMode.get().toLowerCase()) {
+                when (aacMode.get().lowercase()) {
                     "4.x" -> if (aac4Fakelag) {
                         event.cancelEvent()
                         if (packetModify) {

@@ -1,9 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
- *
- * This code was taken from UnlegitMC/FDPClient, modified. Please credit them and us when using this code in your repository.
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.misc
 
@@ -30,7 +28,7 @@ import kotlin.concurrent.schedule
 @ModuleInfo(name = "AutoPlay", spacedName = "Auto Play", description = "Automatically move you to another game after finishing it.", category = ModuleCategory.MISC)
 class AutoPlay : Module() {
     private var clickState = 0
-    private val modeValue = ListValue("Server", arrayOf("RedeSky", "BlocksMC", "Minemora", "Hypixel", "Jartex", "MineFC/HeroMC_Bedwars"), "RedeSky")
+    private val modeValue = ListValue("Server", arrayOf("Redesky", "BlocksMC", "Minemora", "Hypixel", "Jartex", "MineFC/HeroMC_Bedwars"), "Redesky")
     private val bwModeValue = ListValue("Mode", arrayOf("SOLO", "4v4v4v4"), "4v4v4v4", { modeValue.get().equals("minefc/heromc_bedwars", true) })
     private val autoStartValue = BoolValue("AutoStartAtLobby", true, { modeValue.get().equals("minefc/heromc_bedwars", true) })
     private val replayWhenKickedValue = BoolValue("ReplayWhenKicked", true, { modeValue.get().equals("minefc/heromc_bedwars", true) })
@@ -52,7 +50,7 @@ class AutoPlay : Module() {
     fun onPacket(event: PacketEvent) {
         val packet = event.packet
 
-        when (modeValue.get().toLowerCase()) {
+        when (modeValue.get().lowercase()) {
             "redesky" -> {
                 if (clicking && (packet is C0EPacketClickWindow || packet is C07PacketPlayerDigging)) {
                     event.cancelEvent()
@@ -76,7 +74,7 @@ class AutoPlay : Module() {
             val itemName = item.unlocalizedName
             val displayName = item.displayName
 
-            when (modeValue.get().toLowerCase()) {
+            when (modeValue.get().lowercase()) {
                 "redesky" -> {
                     if (clickState == 0 && windowId == 0 && slot == 42 && itemName.contains("paper", ignoreCase = true) && displayName.contains("Jogar novamente", ignoreCase = true)) {
                         clickState = 1
@@ -113,7 +111,7 @@ class AutoPlay : Module() {
             }
         } else if (packet is S02PacketChat) {
             val text = packet.chatComponent.unformattedText
-            when (modeValue.get().toLowerCase()) {
+            when (modeValue.get().lowercase()) {
                 "minemora" -> {
                     if (text.contains("Has click en alguna de las siguientes opciones", true)) {
                         queueAutoPlay {

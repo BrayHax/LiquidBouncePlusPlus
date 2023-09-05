@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command
 
@@ -46,8 +46,8 @@ class CommandManager {
         registerCommand(AutoDisableCommand())
         registerCommand(TeleportCommand())
         registerCommand(PathfindingTeleportCommand())
+        registerCommand(AutoThemeCommand())
         registerCommand(ThemeCommand())
-        registerCommand(LocalThemeCommand())
         registerCommand(ConnectCommand())
         registerCommand(UUIDCommand())
         registerCommand(EnchantCommand())
@@ -58,6 +58,7 @@ class CommandManager {
         registerCommand(RenameCommand())
         registerCommand(UsernameCommand())
         registerCommand(XrayCommand())
+        registerCommand(SnowFallCommand())
     }
 
     /**

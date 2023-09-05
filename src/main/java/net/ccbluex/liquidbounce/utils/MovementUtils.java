@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.utils;
 
@@ -81,10 +81,6 @@ public final class MovementUtils extends MinecraftInstance {
     public static boolean hasMotion() {
         return mc.thePlayer.motionX != 0D && mc.thePlayer.motionZ != 0D && mc.thePlayer.motionY != 0D;
     }
-    
-    public double getXZMotion() {
-		return Math.hypot(mc.thePlayer.motionX, mc.thePlayer.motionZ);
-	}
 
     public static void strafe(final float speed) {
         if(!isMoving())

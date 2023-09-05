@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.element.elements
 
@@ -59,7 +59,7 @@ class Target : Element() {
     val showWithChatOpen = BoolValue("Show-ChatOpen", true)
     val resetBar = BoolValue("ResetBarWhenHiding", false)
 
-    val colorModeValue = ListValue("Color", arrayOf("Custom", "Rainbow", "Sky", "Slowly", "Fade", "Mixer", "Lantern", "Health"), "Health")
+    val colorModeValue = ListValue("Color", arrayOf("Custom", "Rainbow", "Sky", "Slowly", "Fade", "Mixer", "Health"), "Custom")
     val redValue = IntegerValue("Red", 252, 0, 255)
     val greenValue = IntegerValue("Green", 96, 0, 255)
     val blueValue = IntegerValue("Blue", 66, 0, 255)
@@ -85,7 +85,13 @@ class Target : Element() {
             Rice(this),
             Exhibition(this),
             Remix(this),
-            Slowly(this)
+            Slowly(this),
+            Moon(this),
+            MoonLatest(this),
+            Astolfo(this),
+            Mossware(this),
+            JelloReborn(this),
+            NightX(this)
         ).toTypedArray(), "LiquidBounce")
     }
 
@@ -113,7 +119,6 @@ class Target : Element() {
             "Fade" -> ColorUtils.fade(Color(redValue.get(), greenValue.get(), blueValue.get()), 0, 100)
             "Health" -> if (actualTarget != null) BlendUtils.getHealthColor(actualTarget.health, actualTarget.maxHealth) else Color.green
             "Mixer" -> ColorMixer.getMixedColor(0, waveSecondValue.get())
-            "Lantern" -> ColorUtils.lantern(0, 100)
             else -> ColorUtils.LiquidSlowly(System.nanoTime(), 0, saturationValue.get(), brightnessValue.get())!!
         }
 

@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.world
 
@@ -231,7 +231,7 @@ object Fucker : Module() {
 
     @EventTarget
     fun onRender3D(event: Render3DEvent) {
-        when (renderValue.get().toLowerCase()) {
+        when (renderValue.get().lowercase()) {
             "box" -> RenderUtils.drawBlockBox(pos ?: return, if (!coolDownTimer.hasTimePassed(coolDownValue.get().toLong() * 1000L)) Color.DARK_GRAY else Color.RED, false)
             "outline" -> RenderUtils.drawBlockBox(pos ?: return, if (!coolDownTimer.hasTimePassed(coolDownValue.get().toLong() * 1000L)) Color.DARK_GRAY else Color.RED, true)
             "2d" -> RenderUtils.draw2D(pos ?: return, if (!coolDownTimer.hasTimePassed(coolDownValue.get().toLong() * 1000L)) Color.DARK_GRAY.rgb else Color.RED.rgb, Color.BLACK.rgb)
@@ -315,7 +315,7 @@ object Fucker : Module() {
      * Check if block is hitable (or allowed to hit through walls)
      */
     private fun isHitable(blockPos: BlockPos): Boolean {
-        return when (throughWallsValue.get().toLowerCase()) {
+        return when (throughWallsValue.get().lowercase()) {
             "raycast" -> {
                 val eyesPos = Vec3(mc.thePlayer.posX, mc.thePlayer.entityBoundingBox.minY +
                         mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ)

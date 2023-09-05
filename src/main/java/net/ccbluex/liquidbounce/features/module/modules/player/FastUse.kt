@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.player
 
@@ -50,7 +50,7 @@ class FastUse : Module() {
         val usingItem = mc.thePlayer.itemInUse.item
 
         if (usingItem is ItemFood || usingItem is ItemBucketMilk || usingItem is ItemPotion) {
-            when (modeValue.get().toLowerCase()) {
+            when (modeValue.get().lowercase()) {
                 "instant" -> {
                     repeat(32) {
                         mc.netHandler.addToSendQueue(C03PacketPlayer(mc.thePlayer.onGround))

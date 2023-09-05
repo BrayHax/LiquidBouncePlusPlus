@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.command.commands
 
@@ -18,7 +18,7 @@ class PanicCommand : Command("panic", emptyArray()) {
         val msg: String
 
         if (args.size > 1 && args[1].isNotEmpty()) {
-            when (args[1].toLowerCase()) {
+            when (args[1].lowercase()) {
                 "all" -> msg = "all"
 
                 "nonrender" -> {

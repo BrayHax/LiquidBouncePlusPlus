@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.render
 
@@ -20,14 +20,14 @@ class Cape : Module() {
     private val capeCache = hashMapOf<String, CapeStyle>()
 
     fun getCapeLocation(value: String): ResourceLocation {
-        if (capeCache[value.toUpperCase()] == null) {
+        if (capeCache[value.uppercase()] == null) {
             try {
-                capeCache[value.toUpperCase()] = CapeStyle.valueOf(value.toUpperCase())
+                capeCache[value.uppercase()] = CapeStyle.valueOf(value.uppercase())
             } catch (e: Exception) {
-                capeCache[value.toUpperCase()] = CapeStyle.DARK
+                capeCache[value.uppercase()] = CapeStyle.DARK
             }
         }
-        return capeCache[value.toUpperCase()]!!.location
+        return capeCache[value.uppercase()]!!.location
     }
 
     enum class CapeStyle(val location: ResourceLocation) {

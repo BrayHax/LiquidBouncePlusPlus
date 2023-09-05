@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.element.elements
 
@@ -40,7 +40,7 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
     private val greenValue = IntegerValue("Rectangle Green", 148, 0, 255)
     private val blueValue = IntegerValue("Rectangle Blue", 255, 0, 255)
     private val alphaValue = IntegerValue("Rectangle Alpha", 140, 0, 255)
-    private val rectangleRainbow = ListValue("Rectangle Rainbow", arrayOf("Off", "Normal", "CRainbow", "OldRainbow", "Sky", "Fade", "Lantern"), "Off")
+    private val rectangleRainbow = ListValue("Rectangle Rainbow", arrayOf("Off", "Normal", "CRainbow", "OldRainbow", "Sky", "Fade"), "Off")
     private val backgroundRedValue = IntegerValue("Background Red", 0, 0, 255)
     private val backgroundGreenValue = IntegerValue("Background Green", 0, 0, 255)
     private val backgroundBlueValue = IntegerValue("Background Blue", 0, 0, 255)
@@ -51,7 +51,7 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
     private val borderGreenValue = IntegerValue("Border Green", 0, 0, 255)
     private val borderBlueValue = IntegerValue("Border Blue", 0, 0, 255)
     private val borderAlphaValue = IntegerValue("Border Alpha", 150, 0, 255)
-    private val borderRainbow = ListValue("Border Rainbow", arrayOf("Off", "Normal", "CRainbow", "OldRainbow", "Sky", "Fade", "Lantern"), "Off")
+    private val borderRainbow = ListValue("Border Rainbow", arrayOf("Off", "Normal", "CRainbow", "OldRainbow", "Sky", "Fade"), "Off")
     private val skySaturationValue = FloatValue("Sky-Saturation", 0.9f, 0f, 1f)
     private val skyBrightnessValue = FloatValue("Sky-Brightness", 1f, 0f, 1f)
     private val cRainbowSecValue = IntegerValue("CRainbow-Seconds", 2, 1, 10)
@@ -132,7 +132,6 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
                     "OldRainbow" -> RenderUtils.getNormalRainbow(0, oldRainbowSaturationValue.get(), oldRainbowBrightnessValue.get())
                     "Sky" -> RenderUtils.SkyRainbow(0, skySaturationValue.get(), skyBrightnessValue.get())
                     "Fade" -> ColorUtils.fade(borderColor, 0, 100).rgb
-                    "Lantern" -> ColorUtils.lantern(0, 100).rgb
                     else -> borderColor.rgb
                 })
             }
@@ -145,7 +144,6 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
                 "OldRainbow" -> RenderUtils.getNormalRainbow(0, oldRainbowSaturationValue.get(), oldRainbowBrightnessValue.get())
                 "Sky" -> RenderUtils.SkyRainbow(0, skySaturationValue.get(), skyBrightnessValue.get())
                 "Fade" -> ColorUtils.fade(Color(redValue.get(), greenValue.get(), blueValue.get(), alphaValue.get()), 0, 100).rgb
-                "Lantern" -> ColorUtils.lantern(0, 100).rgb
                 else -> Color(redValue.get(), greenValue.get(), blueValue.get(), alphaValue.get()).rgb
             }
 
@@ -158,7 +156,7 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
         var y = 1F
         tabs.forEachIndexed { index, tab ->
             val tabName = if (lowerCaseValue.get())
-                tab.tabName.toLowerCase()
+                tab.tabName.lowercase()
             else
                 tab.tabName
 
@@ -342,8 +340,8 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
             var maxWidth = 0
 
             for (module in modules)
-                if (fontRenderer.getStringWidth(if (lowerCase) module.name.toLowerCase() else module.name) + 4 > maxWidth)
-                    maxWidth = (fontRenderer.getStringWidth(if (lowerCase) module.name.toLowerCase() else module.name) + 7F).toInt()
+                if (fontRenderer.getStringWidth(if (lowerCase) module.name.lowercase() else module.name) + 4 > maxWidth)
+                    maxWidth = (fontRenderer.getStringWidth(if (lowerCase) module.name.lowercase() else module.name) + 7F).toInt()
 
             menuWidth = maxWidth
 
@@ -378,7 +376,7 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
             modules.forEachIndexed { index, module ->
                 val moduleColor = if (module.state) 0xffffff else Color(205, 205, 205).rgb
 
-                fontRenderer.drawString(if (lowerCase) module.name.toLowerCase() else module.name, x + 2F,
+                fontRenderer.drawString(if (lowerCase) module.name.lowercase() else module.name, x + 2F,
                         y + tabHeight.get() * index + textPositionY.get(), moduleColor, textShadow.get())
             }
         }

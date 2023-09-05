@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.ui.client.hud.designer
 
@@ -18,7 +18,8 @@ class GuiHudDesigner : GuiScreen() {
 
     var selectedElement: Element? = null
     private var buttonAction = false
-
+    var wheel = 0
+    
     override fun initGui() {
         Keyboard.enableRepeatEvents(true)
         editorPanel = EditorPanel(this, width / 2, height / 2)
@@ -32,19 +33,25 @@ class GuiHudDesigner : GuiScreen() {
         if (!LiquidBounce.hud.elements.contains(selectedElement))
             selectedElement = null
 
-        val wheel = Mouse.getDWheel()
+        wheel = Mouse.getDWheel()
 
         editorPanel.drawPanel(mouseX, mouseY, wheel)
-
-        if (wheel != 0) {
-            for (element in LiquidBounce.hud.elements) {
-                if (element.isInBorder(mouseX / element.scale - element.renderX,
-                                mouseY / element.scale - element.renderY)) {
-                    element.scale = element.scale + if (wheel > 0) 0.05f else -0.05f
-                    break
-                }
+        
+    if (wheel != 0) {
+         for (element in LiquidBounce.hud.elements) {
+            if (element.isInBorder(mouseX / element.scale - element.renderX,
+                             mouseY / element.scale - element.renderY)) {
+                 element.scale = element.scale + if (wheel > 0) 0.05f else -0.05f
+                 
+                 if (Keyboard.isKeyDown(200)) {
+                      wheel = 1
+                 } else if (Keyboard.isKeyDown(208)) {
+                      wheel = -1
+                 } 
+                 break
             }
-        }
+         }
+    }
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
 
@@ -89,6 +96,10 @@ class GuiHudDesigner : GuiScreen() {
 
     override fun keyTyped(typedChar: Char, keyCode: Int) {
         when (keyCode) {
+        	Keyboard.KEY_UP -> wheel = 1
+            
+            Keyboard.KEY_DOWN -> wheel = -1
+            
             Keyboard.KEY_DELETE -> if (Keyboard.KEY_DELETE == keyCode && selectedElement != null)
                 LiquidBounce.hud.removeElement(selectedElement!!)
 

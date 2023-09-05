@@ -1,7 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module
 
@@ -77,7 +77,7 @@ open class Module : MinecraftInstance(), Listenable {
                     2 -> (if (value) LiquidBounce.tipSoundManager.enableSound else LiquidBounce.tipSoundManager.disableSound).asyncPlay(LiquidBounce.moduleManager.toggleVolume)
                 }
                 if (LiquidBounce.moduleManager.shouldNotify)
-                    LiquidBounce.hud.addNotification(Notification(if (value) "§rEnabled§r " + name else "§rDisabled§r " + name, if (value) Notification.Type.ENABLED else Notification.Type.DISABLED, 1000L))
+                    LiquidBounce.hud.addNotification(Notification("${if (value) "Enabled" else "Disabled"} §r$name", if (value) Notification.Type.SUCCESS else Notification.Type.ERROR, 1000L))
             }
 
             // Call on enabled or disabled

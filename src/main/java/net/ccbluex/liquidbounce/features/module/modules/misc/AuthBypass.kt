@@ -1,9 +1,7 @@
 /*
- * LiquidBounce+ Hacked Client
+ * LiquidBounce++ Hacked Client
  * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
- * https://github.com/WYSI-Foundation/LiquidBouncePlus/
- *
- * This code was taken from UnlegitMC/FDPClient, modified. Please credit them and us when using this code in your repository.
+ * https://github.com/PlusPlusMC/LiquidBouncePlusPlus/
  */
 package net.ccbluex.liquidbounce.features.module.modules.misc
 
@@ -49,7 +47,7 @@ class AuthBypass : Module() {
                 mc.netHandler.addToSendQueue(packet)
             }
             packets.clear()
-            LiquidBounce.hud.addNotification(Notification("Captcha bypassed lmao.", Notification.Type.INFO))
+            LiquidBounce.hud.addNotification(Notification("Authentication bypassed.", Notification.Type.INFO))
         }
     }
 
@@ -65,7 +63,7 @@ class AuthBypass : Module() {
 
             brLangMap.clear()
             for ((key,element) in localeJson.entrySet()) {
-                brLangMap["item.$key"] = element.asString.toLowerCase()
+                brLangMap["item.$key"] = element.asString.lowercase()
             }
         }.start()
     }
@@ -82,7 +80,7 @@ class AuthBypass : Module() {
             }
             val itemName = item.unlocalizedName
 
-            when (type.toLowerCase()) {
+            when (type.lowercase()) {
                 "skull" -> {
                     if (itemName.contains("item.skull.char", ignoreCase = true)) {
                         val nbt = item.tagCompound ?: return
@@ -122,12 +120,6 @@ class AuthBypass : Module() {
                         click(windowId, slot, item)
                     }
                 }
-                
-                "laggynetwork" -> { // glass
-                    if (itemName.contains("VERIFY", ignoreCase = false)) {
-                        click(windowId, slot, item)
-                    }
-                }
 
                 // the new item check in redesky
                 else -> {
@@ -141,12 +133,12 @@ class AuthBypass : Module() {
         if (packet is S2DPacketOpenWindow) {
             val windowName = packet.windowTitle.unformattedText
             if (packet.slotCount == 27 && packet.guiId.contains("container", ignoreCase = true)
-                && windowName.startsWith("Click", ignoreCase = true)) {
+                && windowName.startsWith("Clique", ignoreCase = true)) {
                 type = when {
-                    windowName.contains("green glass", ignoreCase = true) -> "laggynetwork"
+                    windowName.contains("bloco", ignoreCase = true) -> "skull"
                     else -> {
                         val splited = windowName.split(" ")
-                        var str = splited[splited.size - 1].replace(".", "").toLowerCase()
+                        var str = splited[splited.size - 1].replace(".", "").lowercase()
                         if (str.endsWith("s")) {
                             str = str.substring(0, str.length - 1)
                         }
